@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>우리 커플 웨딩 심리 유형 테스트</title>
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700&family=Noto+Sans+KR:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+/* ====== 스티비 API 키 설정 ======
+   아래 YOUR_STIBEE_API_KEY 부분을 본인 API 키로 교체하세요
+   예: const STIBEE_API_KEY = "44ee416d...";
+   주소록 ID도 스티비 주소록 URL에서 확인 후 교체하세요
+   예: const STIBEE_LIST_ID = "12345";
+=============================== */
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Noto Sans KR', sans-serif;
+  background: #FDF8F5;
+  min-height: 100vh;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 2rem 1rem 4rem;
+}
+
+.container {
+  width: 100%;
+  max-width: 480px;
+}
+
+.screen { display: none; }
+.screen.active { display: block; }
+
+/* INTRO */
+.intro-top {
+  text-align: center;
+  padding: 2.5rem 1rem 2rem;
+}
+.deco-line {
+  width: 40px;
+  height: 1px;
+  background: #D4537E;
+  margin: 0 auto 1.25rem;
+}
+.tag-line {
+  font-size: 11px;
+  letter-spacing: 3px;
+  color: #D4537E;
+  text-transform: uppercase;
+  margin-bottom: 1.25rem;
+}
+.main-title {
+  font-family: 'Nanum Myeongjo', Georgia, serif;
+  font-size: 28px;
+  font-weight: 700;
+  color: #1a1a1a;
+  line-height: 1.5;
+  margin-bottom: 1rem;
+}
+.sub-title {
+  font-size: 14px;
+  color: #888;
+  line-height: 1.8;
+}
+
+.intro-card {
+  background: white;
+  border-radius: 16px;
+  padding: 1.5rem;
+  margin: 1.5rem 0;
+  border: 1px solid #F4C0D1;
+}
+.intro-card p {
+  font-size: 14px;
+  color: #555;
+  line-height: 1.9;
+}
+.intro-card strong { color: #1a1a1a; font-weight: 500; }
+
+.badge-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+}
+.badge {
+  background: #FBEAF0;
+  border: 1px solid #F4C0D1;
+  border-radius: 20px;
+  padding: 4px 14px;
+  font-size: 12px;
+  color: #993556;
+}
+
+.start-btn {
+  display: block;
+  width: 100%;
+  padding: 16px;
+  background: #D4537E;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  font-family: 'Noto Sans KR', sans-serif;
+  transition: background 0.2s;
+  margin-top: 0.5rem;
+}
+.start-btn:hover { background: #c04470; }
+
+/* QUIZ */
+.progress-wrap {
+  margin-bottom: 2rem;
+}
+.progress-bar {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+.progress-dot {
+  height: 3px;
+  flex: 1;
+  background: #EDD9E2;
+  border-radius: 2px;
+  transition: background 0.4s;
+}
+.progress-dot.done { background: #D4537E; }
+.progress-text {
+  font-size: 12px;
+  color: #aaa;
+  text-align: right;
+}
+
+.q-card {
+  background: white;
+  border-radius: 16px;
+  padding: 1.75rem 1.5rem;
+  margin-bottom: 1rem;
+  border: 1px solid #EDD9E2;
+}
+.q-num {
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: #D4537E;
+  text-transform: uppercase;
+  margin-bottom: 0.75rem;
+}
+.q-text {
+  font-family: 'Nanum Myeongjo', Georgia, serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: #1a1a1a;
+  line-height: 1.55;
+}
+
+.options {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.opt-btn {
+  width: 100%;
+  text-align: left;
+  padding: 14px 16px;
+  border: 1px solid #EDD9E2;
+  border-radius: 12px;
+  background: white;
+  font-size: 14px;
+  color: #333;
+  font-family: 'Noto Sans KR', sans-serif;
+  cursor: pointer;
+  transition: all 0.15s;
+  line-height: 1.6;
+}
+.opt-btn:hover {
+  border-color: #D4537E;
+  background: #FBEAF0;
+  color: #993556;
+}
+.opt-prefix {
+  font-weight: 500;
+  color: #D4537E;
+  margin-right: 8px;
+}
+
+/* EMAIL */
+.email-card {
+  background: white;
+  border-radius: 16px;
+  padding: 2rem 1.5rem;
+  border: 1px solid #EDD9E2;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+.email-icon-wrap {
+  width: 56px;
+  height: 56px;
+  background: #FBEAF0;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1rem;
+  font-size: 24px;
+}
+.email-title {
+  font-family: 'Nanum Myeongjo', Georgia, serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 0.5rem;
+}
+.email-desc {
+  font-size: 13px;
+  color: #888;
+  line-height: 1.8;
+  margin-bottom: 1.5rem;
+}
+
+.result-preview {
+  background: #FBEAF0;
+  border: 1px solid #F4C0D1;
+  border-radius: 12px;
+  padding: 1rem 1.25rem;
+  margin-bottom: 1.5rem;
+  text-align: left;
+}
+.preview-label {
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: #993556;
+  text-transform: uppercase;
+  margin-bottom: 0.25rem;
+}
+.preview-type {
+  font-family: 'Nanum Myeongjo', Georgia, serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: #72243E;
+  margin-bottom: 0.25rem;
+}
+.preview-hint {
+  font-size: 12px;
+  color: #993556;
+}
+
+.field-wrap { margin-bottom: 12px; text-align: left; }
+.field-label {
+  font-size: 12px;
+  color: #888;
+  margin-bottom: 6px;
+  display: block;
+}
+input[type="text"], input[type="email"] {
+  width: 100%;
+  padding: 13px 14px;
+  border: 1px solid #EDD9E2;
+  border-radius: 10px;
+  background: #FDF8F5;
+  color: #1a1a1a;
+  font-size: 14px;
+  font-family: 'Noto Sans KR', sans-serif;
+  outline: none;
+  transition: border-color 0.2s;
+}
+input:focus { border-color: #D4537E; background: white; }
+
+.submit-btn {
+  display: block;
+  width: 100%;
+  padding: 15px;
+  background: #D4537E;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  font-family: 'Noto Sans KR', sans-serif;
+  transition: background 0.2s;
+  margin-top: 1rem;
+  margin-bottom: 0.75rem;
+}
+.submit-btn:hover { background: #c04470; }
+.submit-btn:disabled { background: #ddd; cursor: not-allowed; }
+
+.privacy-note {
+  font-size: 11px;
+  color: #bbb;
+  line-height: 1.7;
+  text-align: center;
+}
+
+/* RESULT */
+.result-top {
+  text-align: center;
+  background: white;
+  border-radius: 16px;
+  padding: 2rem 1.5rem;
+  border: 1px solid #EDD9E2;
+  margin-bottom: 1rem;
+}
+.result-badge {
+  display: inline-block;
+  background: #FBEAF0;
+  border: 1px solid #F4C0D1;
+  border-radius: 20px;
+  padding: 5px 16px;
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: #993556;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+}
+.result-name {
+  font-family: 'Nanum Myeongjo', Georgia, serif;
+  font-size: 30px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 0.5rem;
+}
+.result-sub {
+  font-size: 15px;
+  color: #D4537E;
+  font-weight: 500;
+  margin-bottom: 1.25rem;
+}
+.divider {
+  width: 40px;
+  height: 1px;
+  background: #EDD9E2;
+  margin: 1.25rem auto;
+}
+
+.result-desc-card {
+  background: #FDF8F5;
+  border-radius: 12px;
+  padding: 1.25rem;
+  text-align: left;
+  margin-bottom: 1rem;
+}
+.result-desc {
+  font-size: 14px;
+  color: #555;
+  line-height: 1.9;
+}
+
+.advice-card {
+  background: white;
+  border-radius: 16px;
+  padding: 1.5rem;
+  border: 1px solid #EDD9E2;
+  margin-bottom: 1rem;
+  border-left: 3px solid #D4537E;
+}
+.advice-label {
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: #D4537E;
+  text-transform: uppercase;
+  margin-bottom: 0.75rem;
+}
+.advice-text {
+  font-size: 14px;
+  color: #333;
+  line-height: 1.85;
+}
+
+.email-confirm {
+  background: #FBEAF0;
+  border-radius: 12px;
+  padding: 1rem 1.25rem;
+  font-size: 13px;
+  color: #993556;
+  line-height: 1.7;
+  text-align: center;
+}
+.email-confirm strong { font-weight: 500; }
+
+.footer-note {
+  text-align: center;
+  font-size: 12px;
+  color: #ccc;
+  margin-top: 2rem;
+  padding-bottom: 1rem;
+}
+
+/* error msg */
+.error-msg {
+  font-size: 12px;
+  color: #D4537E;
+  margin-top: 6px;
+  display: none;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- INTRO -->
+  <div id="screen-intro" class="screen active">
+    <div class="intro-top">
+      <div class="deco-line"></div>
+      <div class="tag-line">Wedding Psychology Test</div>
+      <h1 class="main-title">우리 커플, 결혼을 앞두고<br>어떤 심리 유형일까?</h1>
+      <p class="sub-title">5가지 질문으로 알아보는<br>나의 웨딩 심리 유형</p>
+    </div>
+
+    <div class="intro-card">
+      <p>결혼을 앞두고 <strong>괜히 예민해지거나, 불안하거나,<br>혼자 다 챙기고 있지는 않나요?</strong><br><br>
+      이건 당신만의 문제가 아니에요. 결혼 준비는 두 사람의 심리 유형이 가장 선명하게 드러나는 시간이거든요.<br><br>
+      테스트 후 <strong>유형별 맞춤 콘텐츠</strong>를 이메일로 받아보세요 💌</p>
+      <div class="badge-row">
+        <span class="badge">5문항</span>
+        <span class="badge">1분 소요</span>
+        <span class="badge">4가지 유형</span>
+        <span class="badge">무료</span>
+      </div>
+    </div>
+
+    <button class="start-btn" onclick="startQuiz()">테스트 시작하기 →</button>
+    <p class="footer-note">by 나스언니</p>
+  </div>
+
+  <!-- QUIZ -->
+  <div id="screen-quiz" class="screen">
+    <div class="progress-wrap">
+      <div class="progress-bar" id="progress"></div>
+      <div class="progress-text" id="progress-text"></div>
+    </div>
+    <div class="q-card">
+      <div class="q-num" id="q-num"></div>
+      <div class="q-text" id="q-text"></div>
+    </div>
+    <div class="options" id="options"></div>
+  </div>
+
+  <!-- EMAIL -->
+  <div id="screen-email" class="screen">
+    <div class="email-card">
+      <div class="email-icon-wrap">💌</div>
+      <h2 class="email-title">결과를 확인해볼게요</h2>
+      <p class="email-desc">당신의 웨딩 심리 유형이 나왔어요.<br>이메일로 유형 분석 + 관계 팁을 보내드릴게요.</p>
+
+      <div class="result-preview">
+        <div class="preview-label">나의 유형</div>
+        <div class="preview-type" id="preview-type">분석 중...</div>
+        <div class="preview-hint">이메일 입력 후 결과 확인 👇</div>
+      </div>
+
+      <div class="field-wrap">
+        <label class="field-label">닉네임</label>
+        <input type="text" id="user-name" placeholder="예비신부, 주형씨, 뭐든 OK" />
+      </div>
+      <div class="field-wrap">
+        <label class="field-label">이메일 주소 *</label>
+        <input type="email" id="user-email" placeholder="example@email.com" />
+        <div class="error-msg" id="email-error">이메일 주소를 올바르게 입력해주세요.</div>
+      </div>
+
+      <button class="submit-btn" id="submit-btn" onclick="submitEmail()">결과 확인하기 →</button>
+      <p class="privacy-note">개인정보는 결과 전송 외 사용되지 않으며,<br>언제든지 수신 거부할 수 있어요.</p>
+    </div>
+  </div>
+
+  <!-- RESULT -->
+  <div id="screen-result" class="screen">
+    <div class="result-top">
+      <div class="result-badge">나의 웨딩 심리 유형</div>
+      <div class="result-name" id="result-name"></div>
+      <div class="result-sub" id="result-sub"></div>
+      <div class="divider"></div>
+      <div class="result-desc-card">
+        <div class="result-desc" id="result-desc"></div>
+      </div>
+    </div>
+    <div class="advice-card">
+      <div class="advice-label">나스언니의 한마디</div>
+      <div class="advice-text" id="result-advice"></div>
+    </div>
+    <div class="email-confirm">
+      📬 <strong>이메일로 더 자세한 분석</strong>이 도착했어요.<br>
+      받은 편지함을 확인해보세요 :)
+    </div>
+    <p class="footer-note">by 나스언니 · 구독 취소는 이메일 하단 링크에서</p>
+  </div>
+
+</div>
+
+<script>
+/* ============================================
+   ★ 여기에 API 키와 주소록 ID를 입력하세요 ★
+   스티비 → 설정 → API 에서 키 확인
+   스티비 → 주소록 → URL의 숫자가 주소록 ID
+   ============================================ */
+const STIBEE_API_KEY = "44ee416d22ce36bfc4897a7d5712914b1a3435ec2c8db1504cd4fe82b2debe07f6587ae930ce2bbce2452cb8874f11cf3965af141658843f70909382fac1032f";
+const STIBEE_LIST_ID = "492102";
+/* ============================================ */
+
+const questions = [
+  {
+    text: "웨딩홀 투어를 마치고 나서 당신의 반응은?",
+    options: [
+      { label: "이미 머릿속에 세팅 완료. 바로 비교 엑셀 만듦", score: "planner" },
+      { label: "분위기 좋았는데... 가격이 좀 걸림", score: "realistic" },
+      { label: "상대방 표정만 계속 살폈음", score: "caring" },
+      { label: "일단 사진 올리고 반응 봄", score: "social" }
+    ]
+  },
+  {
+    text: "결혼 준비 중 가장 많이 하는 생각은?",
+    options: [
+      { label: "'이거 내가 다 챙겨야 해'", score: "planner" },
+      { label: "'이 돈이면 뭘 더 할 수 있었는데'", score: "realistic" },
+      { label: "'상대가 원하는 게 뭔지 모르겠어'", score: "caring" },
+      { label: "'이 순간이 기억에 남을까'", score: "social" }
+    ]
+  },
+  {
+    text: "예상치 못한 문제가 생겼을 때 (예: 날짜 변경, 예산 초과)?",
+    options: [
+      { label: "플랜 B 이미 있음. 침착하게 대응", score: "planner" },
+      { label: "현실적으로 따지고 빠르게 결단", score: "realistic" },
+      { label: "상대 괜찮은지부터 확인", score: "caring" },
+      { label: "일단 당황, 주변에 공유하고 의견 구함", score: "social" }
+    ]
+  },
+  {
+    text: "결혼식 이후 신혼생활에 대해 가장 기대하는 것은?",
+    options: [
+      { label: "루틴이 생기는 것 — 우리만의 생활 패턴", score: "planner" },
+      { label: "두 사람의 살림이 합쳐지는 현실적인 안정감", score: "realistic" },
+      { label: "매일 아침 옆에 있다는 것 그 자체", score: "caring" },
+      { label: "친구들한테 '신혼 어때?' 질문 받는 것", score: "social" }
+    ]
+  },
+  {
+    text: "파트너가 결혼 준비에 소극적일 때 당신은?",
+    options: [
+      { label: "그냥 내가 다 함. 어차피 더 빠름", score: "planner" },
+      { label: "역할 분담 명확히 해달라고 말함", score: "realistic" },
+      { label: "왜 의욕이 없는지 이유를 알고 싶음", score: "caring" },
+      { label: "다른 커플은 어떤지 물어봄", score: "social" }
+    ]
+  }
+];
+
+const results = {
+  planner: {
+    name: "완벽주의 플래너형",
+    sub: "결혼식은 내가 이끈다",
+    desc: "당신은 결혼 준비의 95%를 혼자 끌고 가는 타입이에요. 엑셀, 비교표, 타임라인 — 이미 다 있죠. 능력 있는 건 맞아요. 근데 가끔 '내가 왜 이걸 혼자 하고 있지?'라는 생각이 드지 않나요? 결혼은 완벽한 이벤트가 아니라, 두 사람이 함께 만들어가는 첫 번째 프로젝트예요.",
+    advice: "완벽한 결혼식보다, 결혼 준비 과정에서 파트너와 얼마나 잘 싸우고 화해했는지가 더 중요해요. 오늘, 파트너에게 '나 혼자 하기 힘들어'라고 한 번만 말해보세요."
+  },
+  realistic: {
+    name: "현실주의 조율형",
+    sub: "감정보다 숫자가 먼저",
+    desc: "당신은 결혼 준비에서 가장 이성적인 사람이에요. 예산, 합리적인 선택, 거품 없는 결정. 그 태도 덕분에 크게 흔들리지 않죠. 근데 파트너 눈엔 가끔 '너무 냉정한 거 아니야?'로 보일 수 있어요. 숫자를 잘 보는 만큼, 상대의 감정도 한 번 더 챙겨보세요.",
+    advice: "오늘 결혼 준비 얘기 말고, 그냥 '너랑 결혼하는 게 기대돼'라는 말 한마디 해보는 건 어때요? 예산표보다 훨씬 강력해요."
+  },
+  caring: {
+    name: "공감형 배려자",
+    sub: "파트너의 표정부터 본다",
+    desc: "당신은 상대가 어떻게 느끼는지를 가장 먼저 살피는 사람이에요. 배려심이 깊고, 갈등을 피하려는 마음도 크죠. 근데 그러다 보면 정작 당신이 원하는 게 뭔지 흐릿해질 때가 있어요. 결혼은 두 사람 모두의 날이에요. 당신의 바람도 소중해요.",
+    advice: "오늘 하루, 파트너에게 '나는 이게 갖고 싶어'라고 한 가지만 말해보세요. 배려는 자신을 포기하는 게 아니에요."
+  },
+  social: {
+    name: "분위기 메이커형",
+    sub: "결혼식은 우리의 이야기",
+    desc: "당신에게 결혼은 두 사람만의 이벤트가 아니에요. 주변 사람들과 함께 나누고 싶은 특별한 순간이죠. SNS 반응, 하객들의 표정, 기억에 남는 장면 — 그걸 중요하게 여기는 감각, 사실 대단한 거예요. 다만 타인의 시선에 너무 끌려다니면 '정작 우리가 원한 게 뭐였지?'를 잊을 수 있어요.",
+    advice: "결혼식 날, 딱 5분만 — 사진 찍지 말고 파트너 눈만 보는 시간을 만들어보세요. 그게 진짜 기억으로 남을 거예요."
+  }
+};
+
+const scores = { planner: 0, realistic: 0, caring: 0, social: 0 };
+let current = 0;
+
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById('screen-' + id).classList.add('active');
+  window.scrollTo(0, 0);
+}
+
+function startQuiz() {
+  current = 0;
+  Object.keys(scores).forEach(k => scores[k] = 0);
+  showScreen('quiz');
+  renderQuestion();
+}
+
+function renderQuestion() {
+  const q = questions[current];
+  const pb = document.getElementById('progress');
+  pb.innerHTML = questions.map((_, i) =>
+    `<div class="progress-dot ${i < current ? 'done' : ''}"></div>`
+  ).join('');
+  document.getElementById('progress-text').textContent = `${current + 1} / ${questions.length}`;
+  document.getElementById('q-num').textContent = `Question ${current + 1}`;
+  document.getElementById('q-text').textContent = q.text;
+  const opts = document.getElementById('options');
+  opts.innerHTML = q.options.map((o, i) =>
+    `<button class="opt-btn" onclick="answer('${o.score}')">
+      <span class="opt-prefix">${String.fromCharCode(65+i)}.</span>${o.label}
+    </button>`
+  ).join('');
+}
+
+function answer(type) {
+  scores[type]++;
+  current++;
+  if (current < questions.length) {
+    renderQuestion();
+  } else {
+    const top = getTopType();
+    document.getElementById('preview-type').textContent = results[top].name;
+    showScreen('email');
+  }
+}
+
+function getTopType() {
+  return Object.entries(scores).sort((a, b) => b[1] - a[1])[0][0];
+}
+
+async function submitEmail() {
+  const name = document.getElementById('user-name').value.trim() || '구독자';
+  const email = document.getElementById('user-email').value.trim();
+  const errEl = document.getElementById('email-error');
+  const btn = document.getElementById('submit-btn');
+
+  if (!email || !email.includes('@')) {
+    errEl.style.display = 'block';
+    return;
+  }
+  errEl.style.display = 'none';
+  btn.disabled = true;
+  btn.textContent = '전송 중...';
+
+  const type = getTopType();
+  const r = results[type];
+
+  // 스티비 구독자 추가 API 호출
+  try {
+    await fetch(`https://api.stibee.com/v1/lists/${STIBEE_LIST_ID}/subscribers`, {
+      method: 'POST',
+      headers: {
+        'AccessToken': STIBEE_API_KEY,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        subscribers: [{
+          email: email,
+          name: name,
+          customFields: {
+            wedding_type: r.name
+          }
+        }],
+        groupType: 'add'
+      })
+    });
+  } catch (e) {
+    console.log('스티비 연결 확인 필요:', e);
+  }
+
+  // 결과 화면 표시
+  document.getElementById('result-name').textContent = r.name;
+  document.getElementById('result-sub').textContent = r.sub;
+  document.getElementById('result-desc').textContent = r.desc;
+  document.getElementById('result-advice').textContent = r.advice;
+  showScreen('result');
+}
+</script>
+</body>
+</html>
