@@ -1,67 +1,67 @@
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>우리 커플 웨딩 심리 유형 테스트</title>
-<link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700&family=Noto+Sans+KR:wght@300;400;500&display=swap" rel="stylesheet">
-<style>
+<!DOCTYPE HTML>
+<HTML 언어="ko">
+<머리>
+<메타 문자 집합="UTF-8">
+<메타 이름.="뷰포트" 내용="폭=장치 폭, 초기 규모=1.0">
+<제목>우리 커플 웨딩 심리 유형 테스트</제목>
+<링크 href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght @400;700&가족=Noto+Sans+KR:wight@300;400;500&디스플레이=swap" 릴="스타일시트">
+<스타일.>
 /* ====== 스티비 API 키 설정 ======
-   아래 YOUR_STIBEE_API_KEY 부분을 본인 API 키로 교체하세요
-   예: const STIBEE_API_KEY = "44ee416d...";
-   주소록 ID도 스티비 주소록 URL에서 확인 후 교체하세요
-   예: const STIBEE_LIST_ID = "12345";
+ 아래 YOUR_스티비_API_KEY 부분을 본인 API 키로 교체하세요
+ 예: STIBE_API_KEY = "44ee416d...";
+ 주소록 ID도 스티비 주소록 URL에서 확인 후 교체하세요
+ 예: STIBE_LIST_ID = "12345";
 =============================== */
 
-* { box-sizing: border-box; margin: 0; padding: 0; }
+* { 박스 sizing: 국경 상자; 여백: 0; 패딩: 0; }
 
-body {
-  font-family: 'Noto Sans KR', sans-serif;
-  background: #FDF8F5;
-  min-height: 100vh;
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
-  padding: 2rem 1rem 4rem;
-}
-
-.container {
-  width: 100%;
-  max-width: 480px;
+몸 {
+  폰트 패밀리: '노토 산스 KR', 산세리프;
+  배경: #FDF8F5;
+  미니 높이: 100vh;
+  디스플레이: 플렉스;
+  정렬 items: 플렉스 스타트;
+  정당화 내용: 중심;
+  패딩: 2렘 1렘 4렘;
 }
 
-.screen { display: none; }
-.screen.active { display: block; }
+.컨테이너. {
+  너비: 100%;
+  최대 너비: 480px;
+}
 
-/* INTRO */
-.intro-top {
-  text-align: center;
-  padding: 2.5rem 1rem 2rem;
+.화면. { 디스플레이: 없음.; }
+.화면..활동적인 { 디스플레이: 블록; }
+
+/* 소개 */
+.인트로탑 {
+  텍스트 align: 중심;
+  패딩: 2.5렘 1렘 2렘;
 }
-.deco-line {
-  width: 40px;
-  height: 1px;
-  background: #D4537E;
-  margin: 0 auto 1.25rem;
+.데코 라인 {
+  너비: 40px;
+  높이: 1px;
+  배경: #D4537E;
+  여백: 0 자동 1.25렘;
 }
-.tag-line {
-  font-size: 11px;
-  letter-spacing: 3px;
-  color: #D4537E;
-  text-transform: uppercase;
-  margin-bottom: 1.25rem;
+.태그 라인 {
+  글꼴 크기: 11px;
+  문자 spacing: 3px;
+  색.: #D4537E;
+  텍스트 transform: 대문자;
+  마진 바텀: 1.25렘;
 }
-.main-title {
-  font-family: 'Nanum Myeongjo', Georgia, serif;
-  font-size: 28px;
-  font-weight: 700;
-  color: #1a1a1a;
-  line-height: 1.5;
-  margin-bottom: 1rem;
+.주 title {
+  폰트 패밀리: '나눔명조', 조지아, 세리프;
+  글꼴 크기: 28px;
+  글꼴 무게: 700;
+  색.: #1a1a1a;
+  선 높이: 1.5;
+  마진 바텀: 1렘;
 }
-.sub-title {
-  font-size: 14px;
-  color: #888;
+.서브 title {
+  글꼴 크기: 14px;
+  색.: #888;
   line-height: 1.8;
 }
 
